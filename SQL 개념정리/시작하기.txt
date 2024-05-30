@@ -1,0 +1,6 @@
+오후 2:20 2024-05-29
+sqlplus as sysdba > 관리자로 로그인
+
+ALTER SESSION SET "_ORACLE_SCRIPT"=true:
+CREATE USER kh_T IDENTIFIED BY kh1234; >> 비밀번호 kh1234 인 kh_T 유저
+GRANT RESOURCE, CONNECT TO kh_T; >> 접근 권한 및 객체, 데이터 조작 권한
