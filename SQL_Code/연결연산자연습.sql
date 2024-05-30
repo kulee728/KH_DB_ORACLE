@@ -1,0 +1,3 @@
+SELECT (EMP_NAME ||'-'||PHONE) AS "이름-전화번호" FROM EMPLOYEE;
+
+SELECT EMP_NAME|| ':' ||SALARY AS "이름 : 급여" FROM EMPLOYEE; 
