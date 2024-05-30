@@ -93,3 +93,18 @@ Dummy : 실제로 쓰이지 않는 데이터.더미테이블을 생성해서
 예)
 */
 select sysdate, systimestamp from dual;
+
+/*
+    직급 코드가 J5인 사원의 수
+*/
+SELECT COUNT(*) FROM EMPLOYEE WHERE JOB_CODE='J5';
+
+
+/*
+|| 연결 연산자. 문자열을 이어준다.
+*/
+SELECT EMP_ID || EMP_NAME AS 두개합친칼럼 FROM EMPLOYEE;
+SELECT EMP_NAME || '의 월급은' || SALARY || '원 입니다.'AS 월급은 FROM EMPLOYEE;
+
+
+
