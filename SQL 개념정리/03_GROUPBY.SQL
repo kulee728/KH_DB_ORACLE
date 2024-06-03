@@ -94,5 +94,7 @@ group by job_code order by "사원 수" desc;
 select dept_code "부서 명", avg(salary) "500사원평균급여" from employee
 where salary >=5000000 group by dept_code order by avg(salary) desc;
 
+select dept_code "부서 명" 
 
+--누군가의 매니저인 사원을 출력하시오
 
