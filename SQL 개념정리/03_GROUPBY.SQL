@@ -39,3 +39,60 @@ SELECT DEPT_CODE 부서코드, FLOOR(AVG(SALARY)) 부서별평균 FROM EMPLOYEE
 WHERE DEPT_CODE IN('D5','D6')
 GROUP BY DEPT_CODE;
 
+/*
+HAVING
+> GROUP BY 절의 조건문을 담당한다.
+*/
+
+--부서별 급여 합계 500 이상인 부서만
+select DEPT_CODE , sum(SALARY) as "급여 합계" from employee
+GROUP BY DEPT_CODE HAVING SUM(SALARY) >= 5000000
+ORDER BY "급여 합계";
+-- 이때, WHERE 절 에서는 집계함수(SUM, COUNT, AVG, MAX 등) 을 사용할 수 없다는 걸 알아두자.
+-- 반대로, ALIAS도 having 절에서 사용이 불가능하다.
+
+--각 부서별 최대 급여
+select dept_code, max(salary) as "최대 급여" from employee
+group by dept_code
+order by "최대 급여" desc;
+-- 각 부서별 최소 급여
+select dept_code, min(salary) as "최소 급여" from employee
+group by dept_code
+order by "최대 급여" desc;
+
+--각 부서별 보너스율 합계
+select dept_code, sum(bonus) "부서별 보너스율 합" from employee
+group by dept_code;
+
+select dept_code,bonus from employee;
+
+--직급 별 사원 수 
+select job_code "직급", count(*) as "사원수" from employee
+group by job_code order by count(*) desc;
+
+select sal_level "급여 등급", avg(bonus) "평균보너스" from employee
+group by sal_level order by "평균보너스" desc;
+
+select dept_code "부서명", min(hire_date) 가장오래된사원입사일 from employee
+group by dept_code order by min(hire_date);
+
+select dept_code "부서 명", count(*) "급여 300 이상 사원 수" from employee
+where salary >= 300
+group by dept_code;
+
+--부서별 보너스 0.1 이상 사원수 조회
+select dept_code 부서명, count(*) "보너스0.1이상사원수"  from employee
+where bonus >= 0.1 and dept_code is not null
+group by dept_code;
+
+-- 급여가 400 이하인 사원들의 직급별 사원 수
+select job_code "직급", count(*) "사원 수" from employee
+where salary<=4000000
+group by job_code order by "사원 수" desc;
+
+-- 급여 500 이상 사원 부서별 평균 급여 내림차순
+select dept_code "부서 명", avg(salary) "500사원평균급여" from employee
+where salary >=5000000 group by dept_code order by avg(salary) desc;
+
+
+
