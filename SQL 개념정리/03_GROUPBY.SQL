@@ -101,5 +101,80 @@ select dept_code "부서명", avg(salary) "평균급여" from employee
 group by dept_code having avg(salary) >= 3000000;
 
 
---누군가의 매니저인 사원을 출력하시오
+--누군가의 매니저인 사원의 이름과 EMP_ID 를 출력하시오
+
+SELECT DISTINCT MANAGER_ID FROM EMPLOYEE WHERE MANAGER_ID IS NOT NULL;
+
+SELECT DISTINCT MANAGER_ID FROM EMPLOYEE WHERE MANAGER_ID IS NOT NULL;
+
+SELECT E2.* , COUNT(*) "부하직원 수"
+FROM EMPLOYEE E1
+INNER JOIN EMPLOYEE E2
+ON E1.MANAGER_ID =E2.EMP_ID
+GROUP BY E2.EMP_ID
+WHERE E1.MANAGER_ID IS NOT NULL;
+
+
+--집계 함수 ROLLUP , CUBE
+-- 그룹 별 산출한 결과 값을 계산하는 함수
+-- GROUP BY 절 에서 만 작성할 수 있다.
+
+-- ROLLUP 함수 : 그룹 별로 중간 집계를 처리 한다
+-- 그룹 별 묶여진 값에 대한 중간 집계와 총 집게를 계산, 자동으로 추가하는 함수
+SELECT DEPT_CODE,JOB_CODE, SUM(SALARY)
+FROM EMPLOYEE
+--WHERE DEPT_CODE  IN('D1','D6')
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE)
+ORDER BY DEPT_CODE;
+-- 위 내용은 : DEPT_CODE JOB_CODE 가 일치하는 직원들에 대한 월급 총합을 구했다. NULL은 부서 전체 급여 합계
+-- D1 NULL은 D1의 전체합이다.
+
+-- 각 부서 별 직급 별 급여 합, 부서별 급여 합
+-----------------------------------------------------------큐브 CUBE--------------------------------------
+--가능한 모든 DEPT_CODE 와 JOB_CODE 의 조합에 대해 합계를 낸다.
+SELECT DEPT_CODE,JOB_CODE,SUM(SALARY)
+FROM EMPLOYEE 
+GROUP BY CUBE(DEPT_CODE,JOB_CODE)
+ORDER BY DEPT_CODE;
+-- 큐브는 ROLL UP 보다 더 포괄적인 집계 결과를 생성한다.
+-- NULL 로 시작하는, JOB_CODE 에 대한 집계를 추가로 제공한다!
+
+--1. 부서별 직급별 급여 합계
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE)
+ORDER BY DEPT_CODE;
+
+--2. 부서별, 직급별, 급여 등급별 급여 합계
+SELECT DEPT_CODE, JOB_CODE,SAL_LEVEL,SUM(SALARY) FROM EMPLOYEE
+GROUP BY CUBE(DEPT_CODE,JOB_CODE,SAL_LEVEL)
+ORDER BY DEPT_CODE;
+
+--3 부서별 직급별 급여 평균
+SELECT DEPT_CODE, JOB_CODE, FLOOR(AVG(SALARY)) FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE)
+ORDER BY DEPT_CODE;
+
+--4 부서별, 직급별 직원수
+SELECT DEPT_CODE, JOB_CODE, COUNT(SALARY) FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE)
+ORDER BY DEPT_CODE;
+
+--5.부서별 직급별 급여등급별 평균 급여
+SELECT DEPT_CODE, JOB_CODE, SAL_LEVEL, FLOOR(AVG(SALARY)) FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE,SAL_LEVEL)
+ORDER BY DEPT_CODE DESC;
+
+--6 부,직, 급등 보너스합
+SELECT DEPT_CODE, JOB_CODE, SAL_LEVEL, SUM(BONUS*SALARY) FROM EMPLOYEE
+GROUP BY ROLLUP(DEPT_CODE,JOB_CODE,SAL_LEVEL)
+ORDER BY DEPT_CODE DESC;
+
+
+-- UNION INTERSECT MINUS
+/*
+
+*/
+
+
+
 

@@ -34,22 +34,29 @@ rollback
 
 6. 모든 직원의 이메일 도메인을 'or.kr'에서 'company.com'으로 변경하고, 전화번호 형식을 '010-xxxx-xxxx'로 변경
 
+--1번
 UPDATE EMPLOYEE2 SET EMAIL=SUBSTR(EMAIL,1,INSTR(EMAIL,'or.kr')-1)||'company.com',
 PHONE = SUBSTR(PHONE,1,3)||'-'||SUBSTR(PHONE,4,4)||'-'||SUBSTR(PHONE,8,4)
 WHERE PHONE IS NOT NULL;
-
+--2번
 UPDATE EMPLOYEE2 SET EMAIL=SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'company.com',
-PHONE = SUBSTR(PHONE,1,3)|| '-' || SUBSTR(PHONE,4,4) || '-' || SUBSTR(PHONE,8,4);
+PHONE = SUBSTR(PHONE,1,3)|| '-' || SUBSTR(PHONE,4,4) || '-' || SUBSTR(PHONE,8,4)
 WHERE PHONE IS NOT NULL;
-ROLLBACK;
 
+--3번
+UPDATE EMPLOYEE2 SET EMAIL = REPLACE(EMAIL,'or.kr','company.com'),
+PHONE = '010-XXXX-XXXX';
+
+ROLLBACK;
 DROP TABLE EMPLOYEE2;
 CREATE TABLE EMPLOYEE2 AS SELECT * FROM EMPLOYEE;
 
 SELECT * FROM EMPLOYEE2;
 
+
+
 ALTER TABLE EMPLOYEE2
-MODIFY PHONE VARCHAR2(16);
+MODIFY PHONE VARCHAR2(15);
 010-XXXX-XXXX
 13개
 
@@ -91,9 +98,14 @@ ROLLBACK;
 21. 부서 코드 'D3'에 속한 모든 직원의 급여를 3800000으로, 보너스율을 0.2로 수정
 
 22. 입사일이 2000-01-01 이후인 모든 직원의 급여를 5% 인상하고, 보너스율을 0.02 증가시키기
+UPDATE EMPLOYEE SET SALARY = SALARY*1.05,
+BONUS = BONUS + 0.02
+WHERE HIRE_DATE >='2000-01-01';
+ROLLBACK;
+SELECT * FROM EMPLOYEE WHERE HIRE_DATE >='2000-01-01';
 
 23. 매니저 ID가 '201'인 모든 직원의 매니저 ID를 '211'으로, 부서 코드를 'D6'로 변경
-
+ 
 24. 모든 직원의 이메일 도메인을 'newcompany.com'으로, 전화번호 형식을 '011-xxxx-xxxx'로 변경
 select email,phone from employee2;
 update EMPLOYEE2 set EMAIL= SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'newcompany.com',
@@ -104,3 +116,4 @@ UPDATE EMPLOYEE2 SET EMAIL=SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'company.com',
 PHONE = SUBSTR(PHONE,1,3)|| '-' || SUBSTR(PHONE,4,4) || '-' || SUBSTR(PHONE,8,4);
 
 25. 부서 코드 'D4'에 속한 모든 직원의 보너스율을 0.1 증가시키고, 전화번호를 '01033334444'로 변경
+
