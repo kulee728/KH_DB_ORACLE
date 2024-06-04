@@ -107,13 +107,9 @@ SELECT * FROM EMPLOYEE WHERE HIRE_DATE >='2000-01-01';
 23. 매니저 ID가 '201'인 모든 직원의 매니저 ID를 '211'으로, 부서 코드를 'D6'로 변경
  
 24. 모든 직원의 이메일 도메인을 'newcompany.com'으로, 전화번호 형식을 '011-xxxx-xxxx'로 변경
-select email,phone from employee2;
-update EMPLOYEE2 set EMAIL= SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'newcompany.com',
-PHONE = SUBSTR(PHONE,1,3) || '-' || SUBSTR(PHONE,4,4) || '-' || SUBSTR(PHONE,8,4);
-rollback;
-
-UPDATE EMPLOYEE2 SET EMAIL=SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'company.com',
-PHONE = SUBSTR(PHONE,1,3)|| '-' || SUBSTR(PHONE,4,4) || '-' || SUBSTR(PHONE,8,4);
-
+UPDATE EMPLOYEE2 SET EMAIL = SUBSTR(EMAIL,1,INSTR(EMAIL,'@')) || 'newcompany.com',
+PHONE = '011-'||SUBSTR(PHONE,4,4)||'-'||SUBSTR(PHONE,8,4);
+SELECT * FROM EMPLOYEE2;
+ROLLBACK;
 25. 부서 코드 'D4'에 속한 모든 직원의 보너스율을 0.1 증가시키고, 전화번호를 '01033334444'로 변경
 

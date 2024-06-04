@@ -1,0 +1,51 @@
+/* JOIN 실습 */
+
+-- 각 직원 이름과 속한 부서 명 (EMPLOYEE, DEPARTMENT)
+SELECT EMP_NAME, DEPT_TITLE FROM EMPLOYEE JOIN DEPARTMENT
+ON DEPT_CODE = DEPT_ID;
+
+SELECT EMP_NAME, DEPT_TITLE FROM EMPLOYEE, DEPARTMENT
+WHERE DEPT_CODE = DEPT_ID;
+
+--각 직원 이름과 부서명, 급여
+SELECT EMP_NAME, DEPT_TITLE, SALARY FROM EMPLOYEE,DEPARTMENT
+WHERE DEPT_ID = DEPT_CODE;
+
+SELECT EMP_NAME, DEPT_TITLE, SALARY FROM EMPLOYEE JOIN DEPARTMENT
+ON DEPT_ID = DEPT_CODE;
+
+--각 직원 이름과 급여 등급
+SELECT EMP_NAME, SAL_GRADE.* FROM EMPLOYEE JOIN SAL_GRADE 
+ON EMPLOYEE.SAL_LEVEL = SAL_GRADE.SAL_LEVEL;
+
+SELECT EMP_NAME, s.* FROM EMPLOYEE e, SAL_GRADE  s
+WHERE e.SAL_LEVEL = s.SAL_LEVEL;
+
+
+
+--각 직원의 이름과 그 직원이  속한 부서 명 및 직급
+SELECT EMP_NAME "직원 명" , DEPT_TITLE "부서 명" , JOB_NAME AS "직급"
+FROM EMPLOYEE e JOIN DEPARTMENT d ON e.dept_code = d.dept_id join JOB j on e.job_code = j.job_code;
+SELECT EMP_NAME "직원 명", DEPT_TITLE "부서 명",JOB_NAME "직급"
+FROM EMPLOYEE E, DEPARTMENT D,JOB J
+WHERE E.DEPT_CODE = d.dept_id AND E.JOB_CODE = J.JOB_CODE;
+
+SELECT E.EMAIL "이메일", D.DEPT_TITLE "부서명"
+FROM EMPLOYEE E, DEPARTMENT D WHERE E.DEPT_CODE = d.dept_id;
+
+SELECT E.EMP_NAME, D.DEPT_TITLE
+FROM EMPLOYEE E JOIN DEPARTMENT D ON E.DEPT_CODE = D.DEPT_ID
+WHERE E.SALARY > 3000000;
+
+SELECT E.EMP_NAME, D.DEPT_TITLE, S.*
+FROM EMPLOYEE E, DEPARTMENT D, SAL_GRADE S
+WHERE E.DEPT_CODE = D.DEPT_ID AND E.SAL_LEVEL = S.SAL_LEVEL;
+
+select e.emp_id "사번", e.emp_name "사원 명", j.job_name "직급", l.local_name "근무지", e.salary "급여"
+from employee e, job j, department d, location l 
+where 
+e.dept_code = d.dept_id and 
+e.job_code = j.job_code and
+j.job_name ='대리' and 
+l.local_code = d.location_id and 
+local_name like '%ASIA%';
