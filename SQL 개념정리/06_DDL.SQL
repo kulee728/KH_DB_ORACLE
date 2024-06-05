@@ -45,4 +45,4 @@ CREATE TABLE USER_MEMBER(
 -- COMMENT ON COLUMN 테이블명, 컬럼명 IS '주석내용'
 COMMENT ON COLUMN USER_MEMBER.USER_ID IS '회원아이디';
 
-                    
+
