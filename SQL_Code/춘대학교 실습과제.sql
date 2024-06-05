@@ -22,48 +22,67 @@
 -- 현재 법학과 교수의 이름, 주민등록 번호를 나이가 많은 순서부터 조회하시오.
 
 -- ANSI
-    SELECT PROFESSOR_NAME, PROFESSOR_SSN, DEPARTMENT_NAME FROM tb_professor P
-    JOIN TB_DEPARTMENT D ON P.DEPARTMENT_NO = D.DEPARTMENT_NO
-    WHERE d.department_name = '법학과'
-    ORDER BY PROFESSOR_SSN;
+  
 -- ORACLE
-
+    SELECT DEPARTMENT_NAME,PROFESSOR_NAME, PROFESSOR_SSN FROM TB_PROFESSOR,TB_DEPARTMENT
+    WHERE TB_PROFESSOR.DEPARTMENT_NO = tb_department.department_no
+    AND tb_department.department_NAME = '법학과'
+    ORDER BY tb_professor.professor_ssn;
+    
 -- 5번
 -- 2004년 2학기에 'C3118100' 과목을 수강한 학생들의 학점을 조회하려고 한다. 
 -- 학점이 높은 학생부터 표시하고, 학점이 같으면 학번이 낮은 학생부터 조회하시오.
 -- (참고) 소수점 아래 2자리까지 0으로 표현 : TO_CHAR(NUMBER, 'FM9.00')
 -- (FM : 조회 결과 양쪽 공백 제거)
-
-
+    SELECT STUDENT_NAME, S.STUDENT_NO, TO_CHAR(POINT,'FM9.00') 학점 FROM 
+    TB_GRADE G , TB_STUDENT S 
+    WHERE g.student_no = s.student_no
+    AND g.class_no = 'C3118100' AND g.term_no = '200402'
+    ORDER BY POINT DESC, STUDENT_NO DESC;
 
 -- 6번
 -- 학생 번호, 학생 이름, 학과 이름을 학생 이름 오름차순으로 조회하시오.
 
 -- ANSI
+    select STUDENT_NO, STUDENT_NAME,D.DEPARTMENT_NAME
+    FROM TB_STUDENT S JOIN TB_DEPARTMENT D ON s.department_no = d.department_no
+    ORDER BY STUDENT_NAME;
 -- ORACLE
-
+    SELECT STUDENT_NO, STUDENT_NAME, D.DEPARTMENT_NAME
+    FROM TB_STUDENT S , TB_DEPARTMENT D WHERE S.DEPARTMENT_NO  = d.department_no
+    ORDER BY STUDENT_NAME;
 
 -- 7번
 -- 춘 기술대학교의 과목 이름, 해당 과목을 수업하는 학과 이름을 조회하시오.
 
 -- ANSI
+    SELECT CLASS_NAME "과목 이름", DEPARTMENT_NAME "학과 명" FROM TB_CLASS C JOIN TB_DEPARTMENT D
+    ON c.department_no = d.department_no;
 -- ORACLE
-
+    SELECT CLASS_NAME "과목 이름", DEPARTMENT_NAME "학과 명" FROM TB_CLASS C, TB_DEPARTMENT D
+    WHERE c.department_no = d.department_no;
 
 
 -- 8번
 -- 과목, 해당 과목 교수 이름을 조회하시오.
+    SELECT CLASS_NAME "과목 명", PROFESSOR_NAME "교수 이름" FROM TB_CLASS_PROFESSOR CP JOIN
+    TB_PROFESSOR P ON cp.professor_no = p.professor_no JOIN tb_class C ON cp.class_no = c.class_no; 
 -- TB_CLASS_PROFESSOR : 과목별 교수의 정보를 저장한 테이블(과목 코드, 학과 코드)
 
 -- ANSI
+    SELECT CLASS_NAME "과목 명", PROFESSOR_NAME "교수 이름" FROM TB_CLASS_PROFESSOR CP JOIN
+    TB_PROFESSOR P ON cp.professor_no = p.professor_no JOIN tb_class C ON cp.class_no = c.class_no; 
 -- TB_CLASS와  TB_PROFESSOR 테이블이 공통으로
 -- DEPARTMENT_NO 컬럼을 가지고 있다 해서 이를 이용해서 JOIN을 하면 안됨!
 -- ORACLE
-
+    SELECT CLASS_NAME "과목 명", PROFESSOR_NAME "교수 이름" FROM TB_CLASS_PROFESSOR CP, tb_class C ,
+    TB_PROFESSOR P WHERE cp.professor_no = p.professor_no AND cp.class_no = c.class_no; 
 
 -- 9번
 -- 8번의 결과 중 '인문 사회' 계열에 속한 과목명, 교수이름을 과목명 오름차순으로 조회하시오.
-
+    SELECT CATEGORY "계열", CLASS_NAME "과목 명", PROFESSOR_NAME "교수 이름" FROM TB_CLASS_PROFESSOR CP, tb_class C ,
+    TB_PROFESSOR P, TB_DEPARTMENT D WHERE cp.professor_no = p.professor_no AND cp.class_no = c.class_no AND
+    p.department_no = d.department_no AND d.category = '인문사회'
 -- ANSI
 -- ORACLE
 
