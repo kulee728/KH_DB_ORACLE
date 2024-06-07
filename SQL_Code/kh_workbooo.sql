@@ -1,0 +1,29 @@
+create TABLE USERS(
+USERID NUMBER NOT NULL,
+NAME VARCHAR2(50) NOT NULL,
+EMAIL VARCHAR2(100) NOT NULL,
+PASSWORD VARCHAR2(100) NOT NULL,
+CREATEDDATE DATE DEFAULT SYSDATE);
+
+CREATE SEQUENCE USERS_SEQ;
+INSERT INTO USERS (userid,name,email,password) VALUES(USERS_SEQ.NEXTVAL,'홍길동','hong@example.com','password123');
+INSERT INTO USERS (userid,name,email,password) VALUES(USERS_SEQ.NEXTVAL,'김철수','kim@example.com','mypassword');
+INSERT INTO USERS (userid,name,email,password) VALUES(USERS_SEQ.NEXTVAL,'이영희','lee@example.com','securepass');
+select * from users;
+
+create table board(
+POSTID NUMBER NOT NULL,
+USERID NUMBER NOT NULL,
+TITLE VARCHAR2(200) NOT NULL,
+CONTENT CLOB NOT NULL);--,
+--CREATEDDATE DATE DEFAULT SYSDATE);
+
+DROP TABLE BOARD;
+
+CREATE SEQUENCE BOARD_SEQ;
+INSERT INTO BOARD VALUES(board_seq.nextval,BOARD_SEQ.CURRVAL,'첫 번째 게시물','이것은 첫 번째 게시글의 내용입니다.');
+INSERT INTO BOARD VALUES(board_seq.nextval,BOARD_SEQ.CURRVAL,'두 번째 게시물','이것은 두 번째 게시글의 내용입니다.');
+INSERT INTO BOARD VALUES(board_seq.nextval,BOARD_SEQ.CURRVAL,'세 번째 게시물','이것은 세 번째 게시글의 내용입니다.');
+SELECT * FROM BOARD;
+
+ALTER TABLE BOARD ADD CREATEDATE DATE DEFAULT SYSDATE;
